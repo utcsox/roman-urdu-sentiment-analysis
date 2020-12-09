@@ -5,6 +5,7 @@ import os
 import numpy as np
 import pandas as pd
 
+from sklearn.preprocessing import LabelEncoder
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
@@ -30,6 +31,8 @@ def load_roman_urdu_sentiment_analysis_dataset(data_path: str, file_name: str, h
     """
     raw_df = _load_and_shuffle_data(data_path, file_name, header_names, seed)
     cleaned_df = _preprocess_raw_data(raw_df)
+
+
     return cleaned_df
 
 
@@ -59,13 +62,17 @@ def _preprocess_raw_data(df: pd.DataFrame) -> pd.DataFrame:
         :param df: raw dataframe
 
     :return:
-        A cleaned dataframe that hae no misspelling and no nan values
+        A cleaned dataframe that hae no misspelling and no nan values + encode target labels to numeric value
     """
     df_ = df.copy()
     df_.drop('nan', axis=1, inplace=True)
     df_.dropna(axis=0, subset=['comment'], inplace=True)
     df_.replace(to_replace='Neative', value='Negative', inplace=True)
     df_.dropna(subset=['sentiment'], inplace=True)
+
+    le = LabelEncoder()
+    le.fit(df_['sentiment'])
+    df_['sentiment'] = le.transform(df_['sentiment'])
 
     return df_
 
