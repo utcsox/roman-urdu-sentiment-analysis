@@ -1,5 +1,5 @@
 """Module to load data"""
-from typing import Any, List
+from typing import List
 
 import os
 import numpy as np
@@ -12,7 +12,7 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 
 
 def load_roman_urdu_sentiment_analysis_dataset(data_path: str, file_name: str, header_names: List[str],
-                                               seed: int = 123):
+                                               seed: int = 123) -> pd.DataFrame:
     """Loads the Roman Urdu sentiment analysis dataset
     Args:
         :param data_path: path to the data directory
