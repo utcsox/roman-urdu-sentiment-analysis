@@ -14,16 +14,16 @@ import string
 def tokenizer(doc: pd.Series) -> str:
     """
     Tokenize a single document
-    :param doc:
-    :return:
+    :param doc: one comment
+    :return: a "clean" string that remove punctuation, numbers and split emoji apart
     """
     tokens = [word.lower() for word in nltk.word_tokenize(doc)]
     tokens = [re.sub(r'[0-9]', '', word) for word in tokens]
     tokens = [re.sub(r'[' + string.punctuation + ']', '', word) for word in tokens]
     tokens = ' '.join(tokens)
-
     em_split_emoji = emoji.get_emoji_regexp().split(tokens)
     em_split_whitespace = [substr.split() for substr in em_split_emoji]
     em_split = functools.reduce(operator.concat, em_split_whitespace)
     tokens = ' '.join(em_split)
+
     return tokens
