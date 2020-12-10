@@ -2,13 +2,15 @@
 Module to plot
 
 """
+from typing import Any, List
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 from sklearn.feature_extraction.text import CountVectorizer
 
 
-def plot_frequency_distribution_of_ngrams(sample_texts,
+def plot_frequency_distribution_of_ngrams(sample_texts: List[str],
                                           ngram_range=(1, 2),
                                           num_ngrams=530):
     """Plots the frequency distribution of n-grams.
@@ -58,4 +60,17 @@ def plot_frequency_distribution_of_ngrams(sample_texts,
     plt.ylabel('Frequencies')
     plt.title('Frequency distribution of n-grams')
     plt.xticks(idx, ngrams, rotation=45)
+    plt.show()
+
+
+def plot_sample_length_distribution(sample_length: List[Any]):
+    """Plots the sample length distribution.
+    # Arguments
+        samples_length: the length of a sample text.
+    """
+    plt.figure(figsize=(16, 12))
+    plt.hist(sample_length, bins=100, zorder=2, rwidth=0.9)
+    plt.xlabel('Length of a sample')
+    plt.ylabel('Number of samples')
+    plt.title('Sample length distribution')
     plt.show()
