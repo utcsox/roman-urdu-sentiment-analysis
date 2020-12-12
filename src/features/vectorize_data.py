@@ -1,29 +1,40 @@
 """modular to vectorize data
 Converts the cleaned text into numeric representation
 """
+import numpy as np
 
-import emoji
-import functools
-import pandas as pd
-import nltk
-import operator
-import re
-import string
+from typing import Any, List, Tuple
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif
 
+MIN_DOCUMENT_FREQUENCY = 2
+TOP_K = 30000
 
-def tokenizer(doc: pd.Series) -> str:
+def vectorize(train_texts: List[str], train_labels, test_texts: List[str]) -> Tuple[Any, Any]:
+    """ Convert the document into word n-grams and vectorize it
+
+    :param train_texts: of training texts
+    :param train_labels: An array of labels from the training dataset
+    :param test_texts: List of test texts
+    :return: A tuple of vectorize training_text and vectorize test texts
     """
-    Tokenize a single document
-    :param doc: one comment
-    :return: a "clean" string that remove punctuation, numbers and split emoji apart
-    """
-    tokens = [word.lower() for word in nltk.word_tokenize(doc)]
-    tokens = [re.sub(r'[0-9]', '', word) for word in tokens]
-    tokens = [re.sub(r'[' + string.punctuation + ']', '', word) for word in tokens]
-    tokens = ' '.join(tokens)
-    em_split_emoji = emoji.get_emoji_regexp().split(tokens)
-    em_split_whitespace = [substr.split() for substr in em_split_emoji]
-    em_split = functools.reduce(operator.concat, em_split_whitespace)
-    tokens = ' '.join(em_split)
 
-    return tokens
+    kwargs = {
+        'ngram_range': (1, 2),
+        'analyzer': 'word',
+        'min_df': MIN_DOCUMENT_FREQUENCY
+    }
+    # Use TfidfVectorizer to convert the raw documents to a matrix of TF-IDF features with:
+    # either 1-gram or 2-gram, using 'word' to split, and minimum document/corpus frequency of 2
+    # Limit the number of features to top 30K.
+
+    vectorizer = TfidfVectorizer(**kwargs)
+    X_train = vectorizer.fit_transform(train_texts)
+    X_test = vectorizer.transform(test_texts)
+    selector = SelectKBest(f_classif, k=min(30000, X_train.shape[1]))
+    selector.fit(X_train, train_labels)
+    X_train = selector.transform(X_train)
+    X_test = selector.transform(X_test)
+
+    return X_train, X_test
