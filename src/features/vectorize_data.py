@@ -11,8 +11,9 @@ from sklearn.feature_selection import f_classif
 MIN_DOCUMENT_FREQUENCY = 2
 TOP_K = 30000
 
+
 def vectorize(train_texts: List[str], train_labels, test_texts: List[str]) -> Tuple[Any, Any]:
-    """ Convert the document into word n-grams and vectorize it
+    """ Convert the document into word n-grams and vectorize it with tf-idf
 
     :param train_texts: of training texts
     :param train_labels: An array of labels from the training dataset
@@ -30,11 +31,11 @@ def vectorize(train_texts: List[str], train_labels, test_texts: List[str]) -> Tu
     # Limit the number of features to top 30K.
 
     vectorizer = TfidfVectorizer(**kwargs)
-    X_train = vectorizer.fit_transform(train_texts)
-    X_test = vectorizer.transform(test_texts)
+    x_train = vectorizer.fit_transform(train_texts)
+    x_test = vectorizer.transform(test_texts)
     selector = SelectKBest(f_classif, k=min(30000, X_train.shape[1]))
     selector.fit(X_train, train_labels)
-    X_train = selector.transform(X_train)
-    X_test = selector.transform(X_test)
+    x_train = selector.transform(x_train)
+    x_test = selector.transform(x_test)
 
-    return X_train, X_test
+    return x_train, x_test
