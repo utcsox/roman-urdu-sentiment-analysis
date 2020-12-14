@@ -59,7 +59,7 @@ def _load_and_shuffle_data(data_path: str, file_name: str, header_names: List[st
         :param skipinitialspace: skip spaces after delimiter
 
     :return:
-        A dataframe object with the texts and labels
+        A tuple of training and test data.
     """
     np.random.seed(seed)
     data_path = os.path.join(data_path, file_name)
@@ -125,3 +125,4 @@ if __name__ == '__main__':
     ((train_comments, train_labels), (test_comments, test_labels)) = load_roman_urdu_sentiment_analysis_dataset(
                                                     DATA_DIR, 'Roman Urdu DataSet.csv', ['comment', 'sentiment', 'nan'])
     print(f'training has {len(train_comments)} examples, test has {len(test_comments)} examples.')
+    print(f'train comments: {train_comments[0:5]}, train_labels: {train_labels[0:5]}')

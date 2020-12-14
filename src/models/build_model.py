@@ -6,10 +6,10 @@ Methods to define multi-layer perceptron
 from typing import Any, List, Tuple
 
 from tensorflow.keras import Sequential
-from tensorflow.keras import Dense, Dropout
+from tensorflow.keras.layers import Dense, Dropout
 
 
-def mlp_model(layers: int, units: int, dropout_rate: float, input_shape: Tuple(int, int), num_classes: int):
+def mlp_model(layers: int, units: int, dropout_rate: float, input_shape: Tuple[int, int], num_classes: int):
     """ Create an instance of multi-layer perceptron model.
 
     :param layers: number of densely-connected NN layers

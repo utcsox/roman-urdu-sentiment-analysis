@@ -23,6 +23,7 @@ def vectorize(train_texts: List[str], train_labels, test_texts: List[str]) -> Tu
 
     kwargs = {
         'ngram_range': (1, 2),
+        'dtype': 'int32',
         'analyzer': 'word',
         'min_df': MIN_DOCUMENT_FREQUENCY
     }
@@ -33,9 +34,12 @@ def vectorize(train_texts: List[str], train_labels, test_texts: List[str]) -> Tu
     vectorizer = TfidfVectorizer(**kwargs)
     x_train = vectorizer.fit_transform(train_texts)
     x_test = vectorizer.transform(test_texts)
-    selector = SelectKBest(f_classif, k=min(30000, X_train.shape[1]))
-    selector.fit(X_train, train_labels)
+    selector = SelectKBest(f_classif, k=min(30000, x_train.shape[1]))
+    selector.fit(x_train, train_labels)
     x_train = selector.transform(x_train)
     x_test = selector.transform(x_test)
+
+    x_train = x_train.astype('float32').toarray()
+    x_test = x_test.astype('float32').toarray()
 
     return x_train, x_test
