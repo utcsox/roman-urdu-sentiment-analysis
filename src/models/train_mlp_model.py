@@ -1,6 +1,6 @@
 """Module to train multi-layer perceptron model"""
 
-from typing import Any, List, Tuple
+from typing import Any, Tuple
 from src.data.make_dataset import load_roman_urdu_sentiment_analysis_dataset
 from src.features.vectorize_data import vectorize
 from src.models.build_model import mlp_model
