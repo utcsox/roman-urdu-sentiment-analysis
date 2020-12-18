@@ -6,6 +6,7 @@ This repository contains end-to-end code to automatically identify sentiment on 
 A data corpus comprising of more than 20000 records in Roman Udu (a limited resource language) was collected and tagged for Sentiment (Positive, Negative, Neutral). 
 
 ## Project Diretory Structure
+```
 ├── LICENSE
 ├── README.md          <- The top-level README for developers using this project.
 ├── data
@@ -47,3 +48,4 @@ A data corpus comprising of more than 20000 records in Roman Udu (a limited reso
 │   │ 
 │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
 │       └── visualize.py
+```
