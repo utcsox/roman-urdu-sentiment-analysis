@@ -1,13 +1,12 @@
 """modular to vectorize data
 Converts the cleaned text into numeric representation
 """
-import numpy as np
 
-from typing import Any, List, Tuple
+from typing import Any, Dict, List, Tuple
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
-from tf.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.text import Tokenizer
 
 MIN_DOCUMENT_FREQUENCY = 2
 TOP_K = 30000
@@ -46,19 +45,19 @@ def vectorize(train_texts: List[str], train_labels, test_texts: List[str]) -> Tu
     return x_train, x_test
 
 
-def tf_keras_vectorize(train_texts: List[str], test_texts: List[str]) -> Tuple[Any, Any, Any]:
+def tf_keras_vectorize(train_texts: List[str], test_texts: List[str]) -> Tuple[List[int], List[int], Dict[str, int]]:
     """ Vectorize text with tf.keras.preprocessing class
 
     :param train_texts: of training texts
     :param test_texts: List of test texts
-    :return: A tuple of vectorize training_text and vectorize test texts
+    :return: A tuple of vectorize training_text, vectorize test texts and a dictionary of word and index
     """
     # create vocabulary with training texts
     tokenizer = Tokenizer(num_words=TOP_K)
     tokenizer.fit_on_texts(train_texts)
 
     # vectorize the training/test texts
-    x_train = tokenizer.text_to_sequences(train_texts)
-    x_test = tokenizer.text_to_sequences(test_texts)
+    x_train = tokenizer.texts_to_sequences(train_texts)
+    x_test = tokenizer.texts_to_sequences(test_texts)
 
     return x_train, x_test, tokenizer.word_index
