@@ -34,18 +34,18 @@ A data corpus comprising of more than 20000 records in Roman Udu (a limited reso
 ├── src                <- Source code for use in this project.
 │   ├── __init__.py    <- Makes src a Python module
 │   │
-│   ├── data           <- Scripts to download or generate data
+│   ├── data           <- Functions to load data from roman urdo sentiment analysis dataset
 │   │   └── make_dataset.py
 │   │
-│   ├── features       <- Scripts to turn raw data into features for modeling
+│   ├── features       <- Functions to perform N-gram and sequence vectorization functions
 │   │   └── vectorize_data.py
 │   │
-│   ├── models         <- Scripts to train/tune models with different hyperparameters
+│   ├── models         <- Functions to build, train, and tune models with different hyperparameters
 │   │   │                
 │   │   ├── build_model.py
 │   │   └── train_mlp_model.py
 │   │   └── tune_mlp_model.py 
 │   │ 
-│   └── visualization  <- Scripts to create exploratory and results oriented visualizations
+│   └── visualization  <- Functions to create exploratory and results oriented visualizations
 │       └── visualize.py
 ```
