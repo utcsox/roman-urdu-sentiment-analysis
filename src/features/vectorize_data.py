@@ -6,10 +6,12 @@ from typing import Any, Dict, List, Tuple
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 
 MIN_DOCUMENT_FREQUENCY = 2
 TOP_K = 30000
+MAX_SEQUENCE_LENGTH = 300
 
 
 def vectorize(train_texts: List[str], train_labels, test_texts: List[str]) -> Tuple[Any, Any]:
@@ -45,7 +47,7 @@ def vectorize(train_texts: List[str], train_labels, test_texts: List[str]) -> Tu
     return x_train, x_test
 
 
-def tf_keras_vectorize(train_texts: List[str], test_texts: List[str]) -> Tuple[List[int], List[int], Dict[str, int]]:
+def tf_keras_vectorize(train_texts: List[str], test_texts: List[str]) -> Tuple[Any, Any, Dict[str, int]]:
     """ Vectorize text with tf.keras.preprocessing class
 
     :param train_texts: of training texts
@@ -60,4 +62,11 @@ def tf_keras_vectorize(train_texts: List[str], test_texts: List[str]) -> Tuple[L
     x_train = tokenizer.texts_to_sequences(train_texts)
     x_test = tokenizer.texts_to_sequences(test_texts)
 
+    # Get max sequence length
+    max_length = len(max(x_train, key=len))
+    if max_length > MAX_SEQUENCE_LENGTH:
+        max_length = MAX_SEQUENCE_LENGTH
+
+    x_train = pad_sequences(x_train, maxlen=max_length)
+    x_test = pad_sequences(x_test, maxlen=max_length)
     return x_train, x_test, tokenizer.word_index
