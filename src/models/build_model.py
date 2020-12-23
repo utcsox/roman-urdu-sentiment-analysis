@@ -48,7 +48,7 @@ def sequence_model(num_features: int, embedding_dim: int, input_shape: Tuple, dr
     # Add Embedding layer.
     model.add(Embedding(input_dim=num_features,
                         output_dim=embedding_dim,
-                        input_length=input_shape[0]
+                        input_length=input_shape
                         ))
     model.add(Dropout(rate=dropout_rate))
     model.add(Conv1D(filters=filters,
