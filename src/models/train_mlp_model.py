@@ -53,8 +53,8 @@ def train_mlp_model(data: Tuple[Any, Any], output_dir: str, layers: int = 2, uni
         batch_size=64)
 
     result = history.history
-    print(f'Validation accuracy: {result["val_acc"][-1]}, loss: {result["val_loss"][-1]}')
-    model.save(output_dir + 'roman_urdu_mlp_model.h5')
+    print(f'Test accuracy: {result["val_acc"][-1]}, loss: {result["val_loss"][-1]}')
+    model.save(output_dir + f"layers_{layers}_units_{units}_mlp_model.h5")
 
     return result["val_acc"][-1], result["val_loss"][-1]
 

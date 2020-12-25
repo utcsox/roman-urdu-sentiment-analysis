@@ -43,7 +43,8 @@ A data corpus comprising of more than 20000 records in Roman Udu (a limited reso
 │   ├── models         <- Functions to build, train, and tune models with different hyperparameters
 │   │   │                
 │   │   ├── build_model.py
-│   │   └── train_mlp_model.py
+│   │   ├── train_mlp_model.py
+│   │   ├── train_sequence_model.py
 │   │   └── tune_mlp_model.py 
 │   │ 
 │   └── visualization  <- Functions to create exploratory and results oriented visualizations

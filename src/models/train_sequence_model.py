@@ -11,12 +11,13 @@ import tensorflow as tf
 TOP_K = 20000
 
 
-def train_sequence_model(data: Tuple[Any, Any], embedding_dim: int = 200, dropout_rate: float = 0.2,
+def train_sequence_model(data: Tuple[Any, Any], output_dir: str, embedding_dim: int = 200, dropout_rate: float = 0.2,
                          filters: int = 3, kernel_size: int = 3, pool_size: int = 3, num_classes: int = 3,
                          learning_rate: float = 1e-3, epochs: int = 1000, batch_size: int = 128):
     """
     Train sequence model of the dataset
     :param data: A tuple of training/test data
+    :param output_dir: output diretory location
     :param embedding_dim:  dimension of the embedding vectors
     :param dropout_rate: percentage of input to drop at Droput Layers
     :param filters: output dimension of the layers
@@ -51,7 +52,7 @@ def train_sequence_model(data: Tuple[Any, Any], embedding_dim: int = 200, dropou
     print(f'Test accuracy: {history["val_acc"][-1]}, loss:{history["val_loss"][-1]}')
 
     # Save model
-    model.save('sequence_model.h5')
+    model.save(output_dir + "sequence_model.h5")
     return history['val_acc'][-1], history['val_loss'][-1]
 
 
@@ -84,4 +85,4 @@ if __name__ == '__main__':
 
     args, unparsed = parser.parse_known_args()
     dataset = load_roman_urdu_sentiment_analysis_dataset(args.data_dir, args.file_name, args.header_names)
-    test_accuracy, test_loss = train_sequence_model(dataset)
+    test_accuracy, test_loss = train_sequence_model(dataset, args.output_dir)
